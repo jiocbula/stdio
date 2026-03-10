@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>乡脉智联 - 撂荒地复耕助力计划</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+        }
+        :root {
+            --green: #2E7D32; /* 农业主绿 */
+            --green-light: #4CAF50; /* 浅绿 */
+            --green-dark: #1B5E20; /* 深绿 */
+            --blue: #1976D2;  /* 科技主蓝 */
+            --blue-light: #2196F3; /* 浅蓝 */
+            --blue-dark: #0D47A1; /* 深蓝 */
+            --beige: #F5F5DC; /* 土地米白 */
+            --beige-dark: #E0E0C7; /* 深米白 */
+            --gray: #F5F5F5;  /* 背景灰 */
+            --gray-dark: #EEEEEE; /* 深灰 */
+            --dark: #333;     /* 文字深灰 */
+            --light: #fff;    /* 白色 */
+            --shadow: 0 4px 20px rgba(0,0,0,0.08); /* 通用阴影 */
+            --shadow-hover: 0 8px 30px rgba(0,0,0,0.12); /* 悬停阴影 */
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* 平滑过渡 */
+        }
+        body {
+            color: var(--dark);
+            line-height: 1.7;
+            background-color: var(--light);
+            scroll-behavior: smooth;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+        }
+        /* 链接下划线动效 */
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--blue);
+            transition: var(--transition);
+        }
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 0;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--green);
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        /* 标题装饰 */
+        .section-title h2::before {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: var(--blue);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--green);
+            color: var(--light);
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        /* 按钮渐变动效 */
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition);
+        }
+        .btn:hover::before {
+            left: 100%;
+        }
+        .btn:hover {
+            background: var(--blue);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--light);
+        }
+        .btn-secondary:hover {
+            background: var(--light);
+            color: var(--blue);
+        }
+        .reserve-area {
+            width: 100%;
+            padding: 30px 20px;
+            border: 2px dashed #ccc;
+            border-radius: 12px;
+            text-align: center;
+            color: #999;
+            margin: 30px 0;
+            background: var(--gray);
+            transition: var(--transition);
+        }
+        .reserve-area:hover {
+            border-color: var(--blue-light);
+            color: #666;
+            background: var(--gray-dark);
+        }
+        /* 导航栏 */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(8px);
+            box-shadow: var(--shadow);
+            z-index: 999;
+            padding: 18px 0;
+            transition: var(--transition);
+        }
+        .nav.scrolled {
+            padding: 12px 0;
+            background: var(--light);
+            box-shadow: var(--shadow-hover);
+        }
+        .nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0;
+        }
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        /* logo装饰 */
+        .nav-logo::before {
+            content: '🌾';
+            font-size: 1.5rem;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+        }
+        .nav-menu a {
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 1.05rem;
+        }
+        .nav-menu a:hover {
+            color: var(--blue);
+        }
+        .nav-hamburger {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--green);
+            transition: var(--transition);
+        }
+        .nav-hamburger:hover {
+            color: var(--blue);
+        }
+        /* 首页Banner */
+        .banner {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url(./banner-bg.jpg) center/cover no-repeat;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Banner粒子动效背景 */
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(46, 125, 50, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(25, 118, 210, 0.2) 0%, transparent 50%);
+            z-index: 1;
+        }
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 20px;
+            animation: fadeUp 1s ease-out;
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .banner-content h1 {
+            font-size: 3.8rem;
+            margin-bottom: 25px;
+            line-height: 1.2;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .banner-content p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.2);
+        }
+        .banner-btn {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        /* 项目背景 */
+        .background {
+            background: linear-gradient(180deg, var(--gray) 0%, var(--light) 100%);
+        }
+        .background-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .background-data {
+            font-size: 1.15rem;
+            line-height: 1.9;
+        }
+        .background-data p {
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 20px;
+        }
+        .background-data p::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: bold;
+        }
+        .background-data b {
+            color: var(--green-dark);
+            font-size: 1.3rem;
+        }
+        /* 核心痛点 */
+        .pain-points {
+            background: var(--light);
+        }
+        .pain-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+            margin-top: 20px;
+        }
+        .pain-card {
+            background: var(--beige);
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        /* 卡片顶部装饰条 */
+        .pain-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--green), var(--blue));
+        }
+        .pain-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            background: var(--beige-dark);
+        }
+        .pain-card h3 {
+            color: var(--blue-dark);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pain-card h3::before {
+            content: '📍';
+            font-size: 1.2rem;
+        }
+        /* 解决方案 */
+        .solution {
+            background: var(--gray);
+            position: relative;
+        }
+        /* 背景装饰 */
+        .solution::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.628 5.372a4.998 4.998 0 0 0-7.07 0L30 22.929 12.442 5.372a4.998 4.998 0 0 0-7.07 0 4.998 4.998 0 0 0 0 7.07L22.929 30 5.372 47.558a4.998 4.998 0 0 0 0 7.07 4.998 4.998 0 0 0 7.07 0L30 37.071l17.558 17.558a4.998 4.998 0 0 0 7.07 0 4.998 4.998 0 0 0 0-7.07L37.071 30l17.558-17.558a4.998 4.998 0 0 0 0-7.07z' fill='%234caf50' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+            z-index: 0;
+        }
+        .solution-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        .solution-step {
+            background: var(--light);
+            padding: 40px 30px;
+            border-radius: 15px;
+            border-left: 6px solid var(--green);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .solution-step:hover {
+            border-left-color: var(--blue);
+            transform: translateX(5px);
+            box-shadow: var(--shadow-hover);
+        }
+        .solution-step h3 {
+            color: var(--green-dark);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .solution-step h3::before {
+            content: '✅';
+            font-size: 1.2rem;
+        }
+        /* 模式创新 */
+        .innovation {
+            background: linear-gradient(0deg, var(--gray) 0%, var(--light) 100%);
+        }
+        .innov-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+        }
+        .innov-card {
+            padding: 40px 30px;
+            border: 1px solid #eee;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            background: var(--light);
+            transition: var(--transition);
+        }
+        .innov-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--green-light);
+        }
+        .innov-card h3 {
+            color: var(--blue-dark);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .innov-card h3::before {
+            content: "★";
+            color: var(--green);
+            font-size: 1.5rem;
+        }
+        .innov-card p {
+            color: #555;
+            line-height: 1.8;
+        }
+        .innov-card p b {
+            color: var(--green-dark);
+        }
+        /* 实践成果 */
+        .practice {
+            background: var(--beige);
+            background: linear-gradient(135deg, var(--beige) 0%, var(--light) 100%);
+        }
+        .practice-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .practice-list {
+            list-style: none;
+            font-size: 1.15rem;
+        }
+        .practice-list li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 30px;
+            transition: var(--transition);
+        }
+        .practice-list li:hover {
+            color: var(--blue-dark);
+            transform: translateX(5px);
+        }
+        .practice-list li::before {
+            content: "✓";
+            color: var(--green);
+            position: absolute;
+            left: 0;
+            font-weight: 700;
+            font-size: 1.2rem;
+            background: var(--light);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .practice-list li b {
+            color: var(--green-dark);
+            font-size: 1.2rem;
+        }
+        /* 商业价值 */
+        .business {
+            background: var(--gray);
+        }
+        .business-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .business-market, .business-model {
+            background: var(--light);
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .business-market:hover, .business-model:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-5px);
+        }
+        .business-market h3, .business-model h3 {
+            color: var(--green-dark);
+            margin-bottom: 25px;
+            font-size: 1.4rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .business-market h3::after, .business-model h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: var(--blue);
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+        .business-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .business-table th, .business-table td {
+            border: 1px solid #eee;
+            padding: 12px;
+            text-align: center;
+        }
+        .business-table th {
+            background: var(--green);
+            color: var(--light);
+            font-weight: 500;
+        }
+        .business-table tr:nth-child(even) {
+            background: var(--gray);
+        }
+        /* 竞品对比 */
+        .compare {
+            background: var(--light);
+        }
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: var(--shadow);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .compare-table th, .compare-table td {
+            border: 1px solid #eee;
+            padding: 20px 15px;
+            text-align: center;
+            font-size: 1.05rem;
+            transition: var(--transition);
+        }
+        .compare-table th {
+            background: var(--blue);
+            color: var(--light);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .compare-table tr:nth-child(even) {
+            background: var(--gray);
+        }
+        .compare-table tr:hover td {
+            background: var(--beige);
+            color: var(--blue-dark);
+        }
+        /* 专家点评 */
+        .expert {
+            background: var(--beige);
+            position: relative;
+        }
+        .expert-content {
+            background: var(--light);
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-hover);
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+        /* 引用装饰 */
+        .expert-content::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 30px;
+            font-size: 8rem;
+            color: var(--green);
+            opacity: 0.1;
+            font-family: serif;
+        }
+        .expert-info {
+            margin-bottom: 25px;
+            color: var(--blue-dark);
+            font-weight: 600;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .expert-info::before {
+            content: '👨‍🏫';
+            font-size: 1.5rem;
+        }
+        .expert-desc {
+            line-height: 1.9;
+            font-size: 1.15rem;
+            color: #444;
+        }
+        .expert-desc p {
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 15px;
+        }
+        .expert-desc p::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 4px;
+            height: 18px;
+            background: var(--green);
+            border-radius: 2px;
+        }
+        .expert-desc p b {
+            color: var(--green-dark);
+        }
+        /* 社会价值 */
+        .social {
+            background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+            color: var(--light);
+            position: relative;
+            overflow: hidden;
+        }
+        /* 渐变光效 */
+        .social::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.15) 0%, transparent 50%);
+            z-index: 0;
+        }
+        .social .section-title h2 {
+            color: var(--light);
+        }
+        .social .section-title h2::before {
+            background: var(--beige);
+        }
+        .social-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        .social-card {
+            background: rgba(255,255,255,0.1);
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .social-card:hover {
+            transform: scale(1.08);
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.3);
+        }
+        .social-card b {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 15px;
+            color: var(--beige);
+            font-weight: 700;
+        }
+        .social-card p {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        /* 拓展区 */
+        .expand {
+            background: var(--gray);
+        }
+        .expand-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        /* 页脚 */
+        .footer {
+            background: var(--dark);
+            color: var(--light);
+            text-align: center;
+            padding: 60px 0 30px;
+            position: relative;
+        }
+        /* 页脚装饰 */
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--green), var(--blue));
+        }
+        .footer p {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            color: #ccc;
+        }
+        .footer a {
+            color: var(--beige);
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        .footer a:hover {
+            color: var(--blue-light);
+            text-decoration: underline;
+        }
+        .footer .reserve-area {
+            background: #444;
+            border-color: #666;
+            color: #aaa;
+        }
+        /* 回到顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--green);
+            color: var(--light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-hover);
+            cursor: pointer;
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 998;
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: var(--blue);
+            transform: translateY(-5px);
+        }
+        /* 响应式适配 */
+        @media (max-width: 992px) {
+            .background-content, .practice-content, .business-content {
+                grid-template-columns: 1fr;
+            }
+            .banner-content h1 {
+                font-size: 3rem;
+            }
+            .container {
+                padding: 40px 0;
+            }
+        }
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: var(--light);
+                flex-direction: column;
+                padding: 30px;
+                box-shadow: var(--shadow-hover);
+                border-radius: 0 0 15px 15px;
+                z-index: 999;
+            }
+            .nav-menu.active {
+                display: flex;
+                animation: fadeDown 0.4s ease-out;
+            }
+            @keyframes fadeDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .nav-hamburger {
+                display: block;
+            }
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            .banner-content h1 {
+                font-size: 2.5rem;
+            }
+            .compare-table th, .compare-table td {
+                padding: 12px 8px;
+                font-size: 0.95rem;
+            }
+            .social-card b {
+                font-size: 2rem;
+            }
+        }
+        @media (max-width: 576px) {
+            .container {
+                width: 95%;
+                padding: 30px 0;
+            }
+            .banner-content p {
+                font-size: 1.1rem;
+            }
+            .social-cards {
+                grid-template-columns: 1fr;
+            }
+            .banner-content h1 {
+                font-size: 2rem;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+            .section-title {
+                margin-bottom: 40px;
+            }
+            .back-to-top {
+                width: 45px;
+                height: 45px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="nav" id="mainNav">
+        <div class="container">
+            <div class="nav-logo">乡脉智联</div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#background">项目背景</a></li>
+                <li><a href="#pain-points">核心痛点</a></li>
+                <li><a href="#solution">解决方案</a></li>
+                <li><a href="#innovation">模式创新</a></li>
+                <li><a href="#practice">实践成果</a></li>
+                <li><a href="#business">商业价值</a></li>
+                <li><a href="#social">社会价值</a></li>
+            </ul>
+            <div class="nav-hamburger" id="navHamburger">☰</div>
+        </div>
+    </nav>
+
+    <!-- 首页Banner -->
+    <section class="banner" id="banner">
+        <div class="banner-content">
+            <h1>乡脉智联</h1>
+            <p>基于卫星实地调研与城乡对接的撂荒地复耕助力计划<br>2026乡村振兴与农业农村现代化赛道 | 负责人：张子墨</p>
+            <div class="banner-btn">
+                <a href="#solution" class="btn">核心模式</a>
+                <a href="#practice" class="btn">实践成果</a>
+                <a href="#expand" class="btn btn-secondary">合作联系</a>
+            </div>
+        </div>
+        <!-- 预留banner大图位：替换css中banner-bg.jpg即可 -->
+        <!-- 预留拓展区 -->
+        <div class="reserve-area" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%;">
+            【Banner预留区】可插入项目主视觉图/宣传视频
+        </div>
+    </section>
+
+    <!-- 项目背景 -->
+    <section class="background" id="background">
+        <div class="container">
+            <div class="section-title">
+                <h2>项目背景：撂荒地危机与粮食安全红线</h2>
+                <p>耕地是粮食安全的“命根子”，破解撂荒难题迫在眉睫</p>
+            </div>
+            <div class="background-content">
+                <div class="background-data">
+                    <p>耕地是粮食安全的“命根子”，当前全国撂荒地已达 <b>1.15亿亩</b>（相当于1.3个海南省），且年均增长6%，湖南、江西等丘陵地带撂荒问题尤为突出。</p>
+                    <p><b>政策支撑</b>：国家严守18亿亩耕地红线，实行“耕地进出平衡”，将卫星遥感监测、代种代耕托管、高标准农田建设作为核心举措，耕地保护纳入县域核心考核。</p>
+                    <p><b>数据来源</b>：国家公开报告+项目团队实地调研验证，确保数据真实有效。</p>
+                </div>
+                <div>
+                    <!-- 预留拓展区：撂荒地分布热力图/政策文件截图 -->
+                    <div class="reserve-area">
+                        【背景预留区】可插入撂荒地分布热力图/政策文件截图/丘陵地带撂荒实景图
+                    </div>
+                </div>
+            </div>
+            <!-- 通用预留区 -->
+            <div class="reserve-area">
+                【补充区】可添加地方撂荒案例/最新耕地保护政策解读/数据图表
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心痛点 -->
+    <section class="pain-points" id="pain-points">
+        <div class="container">
+            <div class="section-title">
+                <h2>核心痛点：多方困境与信息孤岛</h2>
+                <p>农户、政府、市场三方面临不同挑战，亟待系统性解决方案</p>
+            </div>
+            <div class="pain-cards">
+                <div class="pain-card">
+                    <h3>农户困境</h3>
+                    <p>老龄化严重、缺乏劳动力，农业种植收益低，陷入“种不动、种不赚、无人种”的恶性循环，土地被动抛荒。</p>
+                </div>
+                <div class="pain-card">
+                    <h3>政府压力</h3>
+                    <p>面临粮食安全KPI与耕地“进出平衡”硬约束，难以精准摸清“谁在荒、荒在哪”，县域考核压力骤增。</p>
+                </div>
+                <div class="pain-card">
+                    <h3>市场难题</h3>
+                    <p>城市资本、农业投资企业想入局农业，却无精准的土地入口，缺乏有效的风控体系，不敢轻易投入。</p>
+                </div>
+            </div>
+            <!-- 预留拓展区 -->
+            <div class="reserve-area">
+                【痛点预留区】可插入调研访谈截图/农户撂荒口述案例/县域政府工作难点文件
+            </div>
+        </div>
+    </section>
+
+    <!-- 解决方案 -->
+    <section class="solution" id="solution">
+        <div class="container">
+            <div class="section-title">
+                <h2>解决方案：三位一体闭环体系</h2>
+                <p>以「卫星+实地」为找地基础，「订单农业」为盈利核心，「透明托管」为信任保障</p>
+            </div>
+            <div class="solution-content">
+                <p style="text-align: center; font-size: 1.1rem; margin-bottom: 30px; position: relative; z-index: 1;">以「卫星+实地」为找地基础，「订单农业」为盈利核心，「透明托管」为信任保障，形成闭环解决多方痛点</p>
+                <div class="solution-step">
+                    <h3>实地找地：精准建档，摸清家底</h3>
+                    <p>在村干部带领下逐户摸排撂荒地，通过手机地图标记地块边界、拍照留存，建立标准化「撂荒地档案」，明确地块位置、面积、撂荒原因。</p>
+                </div>
+                <div class="solution-step">
+                    <h3>村社托管：三方协议，权责清晰</h3>
+                    <p>依托村集体实现线上托管、农户线上接单，签订政府-村集体-农户三方协议，明确复耕责任、收益分配、托管服务内容。</p>
+                </div>
+                <div class="solution-step">
+                    <h3>城里养：城乡对接，订单反哺</h3>
+                    <p>通过校园社群、抖音/小红书、朋友圈等渠道为农产品对接城市订单，实现30%溢价反哺农户，收益由农户、村集体、运营团队三方合理分成。</p>
+                </div>
+            </div>
+            <!-- 预留拓展区 -->
+            <div class="reserve-area">
+                【解决方案预留区】可插入闭环流程图/实地找地实操视频/村社托管协议模板/城市订单对接截图
+            </div>
+        </div>
+    </section>
+
+    <!-- 模式创新 -->
+    <section class="innovation" id="innovation">
+        <div class="container">
+            <div class="section-title">
+                <h2>模式创新：三大核心亮点</h2>
+                <p>精准、透明、双赢的创新模式，破解传统复耕难题</p>
+            </div>
+            <div class="innov-cards">
+                <div class="innov-card">
+                    <h3>精准找地</h3>
+                    <p><b>卫星宏观参考+实地精细核查</b>：依托国家地理信息公共服务平台卫星影像，大范围定位疑似撂荒区；实地用GPS记录、访谈农户，精准建档，识别准确率达83%。</p>
+                </div>
+                <div class="innov-card">
+                    <h3>透明认养</h3>
+                    <p><b>用公示代替区块链，让信任可见</b>：村务公开栏张贴明细、社群实时同步种植/收支、农户收益清单签字留底，三步实现认养、分配全透明，降低信任成本。</p>
+                </div>
+                <div class="innov-card">
+                    <h3>双赢定价</h3>
+                    <p><b>成本核算+AI合理溢价</b>：实地核算种植成本，加30%合理溢价；溢价70%返农户、20%归村集体公益金、10%用于团队运营，实现农户与消费者双赢。</p>
+                </div>
+            </div>
+            <!-- 预留拓展区 -->
+            <div class="reserve-area">
+                【模式创新预留区】可插入卫星影像对比图/村务公示现场图/AI定价分析图表/溢价分配表
+            </div>
+        </div>
+    </section>
+
+    <!-- 实践成果 -->
+    <section class="practice" id="practice">
+        <div class="container">
+            <div class="section-title">
+                <h2>实践成果：用双脚丈量土地的落地行动</h2>
+                <p>深入田间地头，用实际行动推动撂荒地复耕</p>
+            </div>
+            <div class="practice-content">
+                <div class="practice-list">
+                    <li>累计行程<b>1200公里</b>，访谈120人，收集问卷80份、实地照片300张</li>
+                    <li>对接XX县农业农村局，获取官方推荐试点村庄，完成50户农户入户访谈</li>
+                    <li>确定首批试点撂荒地块<b>200亩</b>，与村集体签订合作意向书</li>
+                    <li>协助村集体采购农资、组织农户开垦，完成试点地块复耕准备</li>
+                    <li>建立种植跟进机制，每周线上沟通、每月实地查看，9月启动城市认养宣传</li>
+                    <li>形成标准化「撂荒地建档流程」「村社托管操作手册」</li>
+                </div>
+                <div>
+                    <!-- 预留拓展区 -->
+                    <div class="reserve-area">
+                        【实践成果预留区】可插入实践行程图/试点签约现场图/复耕实景图/农户访谈视频
+                    </div>
+                </div>
+            </div>
+            <!-- 通用预留区 -->
+            <div class="reserve-area">
+                【补充区】可添加试点村复耕成果数据/农户反馈语录/实践工作周报
+            </div>
+        </div>
+    </section>
+
+    <!-- 商业价值 -->
+    <section class="business" id="business">
+        <div class="container">
+            <div class="section-title">
+                <h2>商业价值：市场容量与盈利模型</h2>
+                <p>巨大的市场空间，清晰的盈利路径</p>
+            </div>
+            <div class="business-content">
+                <div class="business-market">
+                    <h3>市场规模（TAM-SAM-SOM）</h3>
+                    <p>撂荒率降低5%即可新增575万亩良田，仅「找地+托管」就达60亿元市场，叠加订单农业、碳汇交易，赛道轻松突破百亿元。</p>
+                    <ul style="margin: 15px 0; padding-left: 20px;">
+                        <li>TAM整体潜在市场：<b>300亿元</b></li>
+                        <li>SAM可触达目标市场：<b>60亿元</b>（找地+托管）</li>
+                        <li>SOM可服务实际市场：<b>4.5亿元</b>（首批8个丘陵省3000万亩，仅做1%）</li>
+                    </ul>
+                </div>
+                <div class="business-model">
+                    <h3>单亩经济账 & 商业模式</h3>
+                    <div class="business-table">
+                        <tr>
+                            <th>收入（元/亩）</th>
+                            <th>成本（元/亩）</th>
+                            <th>毛利（元/亩）</th>
+                            <th>毛利率</th>
+                        </tr>
+                        <tr>
+                            <td>260（托管+溢价+碳汇）</td>
+                            <td>70</td>
+                            <td>190</td>
+                            <td>73%</td>
+                        </tr>
+                    </div>
+                    <p style="margin-top: 20px;"><b>核心客户</b>：县级政府、村集体、城市消费者、农业投资公司</p>
+                    <p><b>核心渠道</b>：政府集采 + 抖音/小红书云认养</p>
+                </div>
+            </div>
+            <!-- 预留拓展区 -->
+            <div class="reserve-area">
+                【商业价值预留区】可插入市场规模金字塔图/碳汇分成细则/城市认养定价表/政府集采合作协议
+            </div>
+        </div>
+    </section>
+
+    <!-- 竞品对比 -->
+    <section class="compare" id="compare">
+        <div class="container">
+            <div class="section-title">
+                <h2>竞品对比：乡脉智联VS传统土地流转平台</h2>
+                <p>核心优势明显，全方位超越传统模式</p>
+            </div>
+            <table class="compare-table">
+                <tr>
+                    <th>对比维度</th>
+                    <th>乡脉智联</th>
+                    <th>传统土地流转平台</th>
+                </tr>
+                <tr>
+                    <td>撂荒地识别精度</td>
+                    <td>87%（卫星+实地双重核查）</td>
+                    <td>46%（仅单纯信息撮合）</td>
+                </tr>
+                <tr>
+                    <td>交易闭环速度</td>
+                    <td>3天（全线上高效对接）</td>
+                    <td>30天（线下拉锯式沟通）</td>
+                </tr>
+                <tr>
+                    <td>农户溢价率</td>
+                    <td>30%（订单农业+碳汇交易）</td>
+                    <td>10%（无专属溢价工具）</td>
+                </tr>
+                <tr>
+                    <td>单亩边际成本</td>
+                    <td>40元（精准化运营）</td>
+                    <td>无明确数据（靠3%中介费维持）</td>
+                </tr>
+                <tr>
+                    <td>核心价值</td>
+                    <td>卫星精准识别+托管+溢价全闭环</td>
+                    <td>仅土地信息撮合，无后续服务</td>
+                </tr>
+            </table>
+            <!-- 预留拓展区 -->
+            <div class="reserve-area" style="margin-top: 30px;">
+                【竞品对比预留区】可插入更多对比维度/行业平台分析报告/用户选择率数据
+            </div>
+        </div>
+    </section>
+
+    <!-- 专家点评 -->
+    <section class="expert" id="expert">
+        <div class="container">
+            <div class="section-title">
+                <h2>专家点评：大学与产业协同的价值</h2>
+                <p>权威认可，专业指导，指明发展方向</p>
+            </div>
+            <div class="expert-content">
+                <div class="expert-info">指导老师：李笑 山东大学 博士</div>
+                <div class="expert-desc">
+                    <p><b>核心肯定</b>：别小看“学生娃”，国家耕地保护任务重大，县域政府急需低成本、高精度的撂荒底数——项目把“找地-托管-溢价”串成闭环，正好切中行政痛点与资本入口。大学的社会责任就是把“课堂作业”放到真实场景里“跑分”，只要数据真、逻辑顺、农户增收，社会自然会把“学生实验”升级成“县域方案”。</p>
+                    <p><b>发展建议</b>：补“长周期证据”。撂荒地复耕后是否持续种植、土壤肥力是否回升、农户收入是否稳定，需要3-5年跟踪。建议与县域农业农村局签订“耕地质量提升试点”协议，把土壤有机碳、产量、收益三项数据按年度写进政府报告，大学提供第三方评估，社会就认这份“官方背书”。一旦形成可复制的“卫星+订单”县域模板，资本和政策都会追着项目走。</p>
+                </div>
+            </div>
+            <!-- 预留拓展区 -->
+            <div class="reserve-area" style="margin-top: 30px;">
+                【专家点评预留区】可插入专家访谈视频/语录海报/行业大咖额外点评
+            </div>
+        </div>
+    </section>
+
+    <!-- 社会价值 -->
+    <section class="social" id="social">
+        <div class="container">
+            <div class="section-title">
+                <h2>社会价值：复耕带来的多重效益</h2>
+                <p>经济效益与社会效益并重，助力乡村振兴</p>
+            </div>
+            <p style="text-align: center; font-size: 1.1rem; margin-bottom: 30px; position: relative; z-index: 1;">每托管1万亩撂荒地，将实现以下价值</p>
+            <div class="social-cards">
+                <div class="social-card">
+                    <b>8000吨</b>
+                    <p>粮食增产</p>
+                </div>
+                <div class="social-card">
+                    <b>2000户</b>
+                    <p>农户每亩增收260元</p>
+                </div>
+                <div class="social-card">
+                    <b>30万元</b>
+                    <p>村集体年分成</p>
+                </div>
+                <div class="social-card">
+                    <b>1.2万吨</b>
+                    <p>减少碳排放</p>
+                </div>
+            </div>
+            <p style="text-align: center; font-size: 1.2rem; margin-top: 40px; font-weight: 500; position: relative; z-index: 1;">让耕地不再“隐身”，实现城乡真正融合，把“卫星+订单”模式复制到更多丘陵县，筑牢国家粮食安全防线！</p>
+            <!-- 预留拓展区 -->
+            <div class="reserve-area" style="margin-top: 30px; background: rgba(255,255,255,0.1); border-color: var(--beige);">
+                【社会价值预留区】可插入粮食增产数据图/碳减排证书/村集体收益公示/农户增收案例
+            </div>
+        </div>
+    </section>
+
+    <!-- 预留拓展区：团队/合作/动态/联系方式 -->
+    <section class="expand" id="expand">
+        <div class="container">
+            <div class="section-title">
+                <h2>拓展板块</h2>
+                <p>更多信息，期待合作</p>
+            </div>
+            <div class="expand-content">
+                <div class="reserve-area">【团队介绍区】可插入团队成员照片/简介/分工</div>
+                <div class="reserve-area">【合作招商区】可插入合作方logo/合作模式/招商政策</div>
+                <div class="reserve-area">【项目动态区】可插入最新落地进展/活动资讯/媒体报道</div>
+                <div class="reserve-area">【联系方式区】可插入电话/微信/邮箱/地址/公众号二维码</div>
+            </div>
+            <!-- 通用大拓展区 -->
+            <div class="reserve-area" style="margin-top: 20px; grid-column: span 4;">
+                【通用拓展区】可插入项目调研报告/复耕成果白皮书/宣传视频/用户反馈墙
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>乡脉智联 © 2026 撂荒地复耕助力计划 版权所有</p>
+            <p>赛道：乡村振兴与农业农村现代化 | 负责人：张子墨</p>
+            <p>本项目为挑战杯参赛作品 <a href="#banner">回到顶部</a></p>
+            <!-- 页脚预留区 -->
+            <div class="reserve-area" style="margin-top: 10px; background: #444; border-color: #666;">
+                【页脚预留区】可插入友情链接/政策导航/备案信息/小程序二维码
+            </div>
+        </div>
+    </footer>
+
+    <!-- 回到顶部按钮 -->
+    <div class="back-to-top" id="backToTop">↑</div>
+
+    <script>
+        // 导航栏汉堡菜单
+        const navHamburger = document.getElementById('navHamburger');
+        const navMenu = document.getElementById('navMenu');
+        navHamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        // 点击导航链接关闭汉堡菜单
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        // 导航栏滚动样式
+        const mainNav = document.getElementById('mainNav');
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            // 导航栏样式变化
+            if (window.scrollY > 50) {
+                mainNav.classList.add('scrolled');
+            } else {
+                mainNav.classList.remove('scrolled');
+            }
+            
+            // 回到顶部按钮显示/隐藏
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+        
+        // 回到顶部功能
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 元素滚动动画
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.pain-card, .solution-step, .innov-card, .social-card');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        // 初始化元素状态
+        document.querySelectorAll('.pain-card, .solution-step, .innov-card, .social-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+        });
+        
+        // 监听滚动执行动画
+        window.addEventListener('scroll', animateOnScroll);
+        // 页面加载时执行一次
+        window.addEventListener('load', animateOnScroll);
+    </script>
+</body>
+</html>
